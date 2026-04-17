@@ -20,14 +20,14 @@ class Z1Cfg( LeggedRobotCfg ):
            'right_ankle_roll_joint' : 0,     
             'waist_yaw_joint' : 0.0, 
             'left_shoulder_pitch_joint' : 0.0,
-            'left_shoulder_roll_joint' : 0.3, 
+            'left_shoulder_roll_joint' : 0.0, 
             'left_shoulder_yaw_joint' : 0.0,
-            'left_elbow_joint' : 0,
+            'left_elbow_joint' : 0.2,
             'left_wrist_yaw_joint' : 0,
             'right_shoulder_pitch_joint' : 0,
-            'right_shoulder_roll_joint' : -0.3,
+            'right_shoulder_roll_joint' : 0.0,
             'right_shoulder_yaw_joint' : 0.0,
-            'right_elbow_joint' : 0,
+            'right_elbow_joint' : 0.2,
             'right_wrist_yaw_joint' : 0,
         }
 
@@ -48,12 +48,12 @@ class Z1Cfg( LeggedRobotCfg ):
             'left_shoulder_pitch_joint' : 0,
             'left_shoulder_roll_joint' : 0.0,
             'left_shoulder_yaw_joint' : 0.0,
-            'left_elbow_joint' : 0.8,
+            'left_elbow_joint' : 0.2,
             'left_wrist_yaw_joint' : 0,
             'right_shoulder_pitch_joint' : 0,
             'right_shoulder_roll_joint' : 0.0,
             'right_shoulder_yaw_joint' : 0.0,
-            'right_elbow_joint' : 0.8,
+            'right_elbow_joint' : 0.2,
             'right_wrist_yaw_joint' : 0,
         }
 
@@ -183,17 +183,17 @@ class Z1Cfg( LeggedRobotCfg ):
         target_head_height = 0.75  # Z1总高度的~75%
         target_head_margin = 1
         target_base_height_phase1 = 0.35  # 阶段1：Z1高度~35%
-        target_base_height_phase2 = 0.35  # 阶段2：Z1高度~35%
+        target_base_height_phase2 = 0.70  # 阶段2：Z1高度~70%
         target_base_height_phase3 = 0.70  # 阶段3：Z1高度~70%
-        orientation_threshold = 0.99
+        orientation_threshold = 0.97
         left_foot_displacement_sigma = -2
         right_foot_displacement_sigma = -2
-        target_dof_pos_sigma = -0.1
+        target_dof_pos_sigma = -0.5
         tracking_sigma = 0.25 # tracking reward = exp(-error^2/sigma)
 
         reward_groups = ['task', 'regu', 'style', 'target']
         num_reward_groups = len(reward_groups)
-        reward_group_weights = [2.5, 0.1, 1, 1]
+        reward_group_weights = [2.0, 0.08, 1.2, 1.6]
 
         class scales:
             task_orientation = 1
@@ -209,18 +209,18 @@ class Z1Cfg( LeggedRobotCfg ):
         left_foot_displacement_sigma = -2
         right_foot_displacement_sigma = -2
         hip_yaw_var_sigma = -2
-        target_dof_pos_sigma = -0.1
+        target_dof_pos_sigma = -0.5
         post_task = False
         
         class scales:
             # regularization reward
             regu_dof_acc = -2.5e-7
-            regu_action_rate = -0.01
-            regu_smoothness = -0.01 
+            regu_action_rate = -0.006
+            regu_smoothness = -0.006 
             regu_torques = -2.5e-6
             regu_joint_power = -2.5e-5
-            regu_dof_vel = -1e-3
-            regu_joint_tracking_error = -0.00025
+            regu_dof_vel = -7.5e-4
+            regu_joint_tracking_error = -0.00015
             regu_dof_pos_limits = -100.0
             regu_dof_vel_limits = -1 
 
@@ -238,12 +238,12 @@ class Z1Cfg( LeggedRobotCfg ):
             style_style_ang_vel_xy = 1
 
             # post-task reward
-            target_ang_vel_xy = 10
-            target_lin_vel_xy = 10
+            target_ang_vel_xy = 12
+            target_lin_vel_xy = 12
             target_feet_height_var = 2.5
-            target_target_upper_dof_pos = 10
-            target_target_orientation = 10
-            target_target_base_height = 10
+            target_target_upper_dof_pos = 14
+            target_target_orientation = 14
+            target_target_base_height = 16
 
     class domain_rand:
         use_random = True
@@ -289,6 +289,7 @@ class Z1Cfg( LeggedRobotCfg ):
     class curriculum:
         pull_force = True
         force = 120  # Z1更重，拉力应该比G1的100更大（不是60）
+        disable_pull_force_after_phase2 = True  # 阶段3不再施加上拉力
         dof_vel_limit = 300
         base_vel_limit = 20
         threshold_height = 0.9  # Z1更高，阈值可能需要提高
