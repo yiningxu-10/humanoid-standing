@@ -20,14 +20,14 @@ class Z1Cfg( LeggedRobotCfg ):
            'right_ankle_roll_joint' : 0,     
             'waist_yaw_joint' : 0.0, 
             'left_shoulder_pitch_joint' : 0.0,
-            'left_shoulder_roll_joint' : 0.3, 
+            'left_shoulder_roll_joint' : 0.0, 
             'left_shoulder_yaw_joint' : 0.0,
-            'left_elbow_joint' : 0,
+            'left_elbow_joint' : 0.2,
             'left_wrist_yaw_joint' : 0,
             'right_shoulder_pitch_joint' : 0,
-            'right_shoulder_roll_joint' : -0.3,
+            'right_shoulder_roll_joint' : 0.0,
             'right_shoulder_yaw_joint' : 0.0,
-            'right_elbow_joint' : 0,
+            'right_elbow_joint' : 0.2,
             'right_wrist_yaw_joint' : 0,
         }
 
@@ -48,12 +48,12 @@ class Z1Cfg( LeggedRobotCfg ):
             'left_shoulder_pitch_joint' : 0,
             'left_shoulder_roll_joint' : 0.0,
             'left_shoulder_yaw_joint' : 0.0,
-            'left_elbow_joint' : 0.8,
+            'left_elbow_joint' : 0.2,
             'left_wrist_yaw_joint' : 0,
             'right_shoulder_pitch_joint' : 0,
             'right_shoulder_roll_joint' : 0.0,
             'right_shoulder_yaw_joint' : 0.0,
-            'right_elbow_joint' : 0.8,
+            'right_elbow_joint' : 0.2,
             'right_wrist_yaw_joint' : 0,
         }
 
@@ -183,7 +183,7 @@ class Z1Cfg( LeggedRobotCfg ):
         target_head_height = 0.75  # Z1总高度的~75%
         target_head_margin = 1
         target_base_height_phase1 = 0.35  # 阶段1：Z1高度~35%
-        target_base_height_phase2 = 0.35  # 阶段2：Z1高度~35%
+        target_base_height_phase2 = 0.70  # 阶段2：Z1高度~70%
         target_base_height_phase3 = 0.70  # 阶段3：Z1高度~70%
         orientation_threshold = 0.99
         left_foot_displacement_sigma = -2
@@ -289,6 +289,7 @@ class Z1Cfg( LeggedRobotCfg ):
     class curriculum:
         pull_force = True
         force = 120  # Z1更重，拉力应该比G1的100更大（不是60）
+        disable_pull_force_after_phase2 = True  # 阶段3不再施加上拉力
         dof_vel_limit = 300
         base_vel_limit = 20
         threshold_height = 0.9  # Z1更高，阈值可能需要提高
